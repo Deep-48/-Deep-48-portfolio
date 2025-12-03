@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Projects — Deepkumar B. Patel</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg1:#0f1724; --bg2:#071033; --accent:#06b6d4; --muted:#9aa8b6;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;color:#e8eef6;background:linear-gradient(135deg,var(--bg1),var(--bg2));-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:1100px;margin:60px auto;padding:20px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#3b82f6);display:flex;align-items:center;justify-content:center;font-weight:800;color:#04202b}
+  nav a{color:var(--muted);margin-left:14px;text-decoration:none;font-weight:600}
+  nav a:hover{color:#fff}
+  h1{margin:0;font-size:24px}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:18px}
+  .card{
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,0.03);
+    box-shadow:0 14px 34px rgba(2,6,23,0.6);cursor:pointer;transition:transform .18s,box-shadow .18s;
+    display:flex;flex-direction:column;justify-content:space-between;min-height:120px;
+  }
+  .card:hover{transform:translateY(-6px);box-shadow:0 26px 60px rgba(2,6,23,0.7)}
+  .card h3{margin:0 0 8px 0;font-size:18px}
+  .desc{color:var(--muted);font-size:14px;line-height:1.5}
+  .row{display:flex;align-items:center;justify-content:space-between;margin-top:12px;gap:12px}
+  .btn{background:var(--accent);color:#041024;padding:8px 12px;border-radius:10px;font-weight:700;text-decoration:none}
+  .ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 10px;border-radius:10px;color:#e8eef6;text-decoration:none}
+  .tag{background:rgba(255,255,255,0.03);padding:6px 10px;border-radius:999px;font-weight:700;color:var(--muted);font-size:13px}
+  .small{font-size:13px;color:var(--muted)}
+  @media (max-width:900px){
+    .grid{grid-template-columns:1fr}
+    nav a{display:none}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">DP</div>
+        <div>
+          <h1>Projects — Deepkumar B. Patel</h1>
+          <div class="small" style="color:var(--muted)">Click any project to open its GitHub repository</div>
+        </div>
+      </div>
+
+      <nav aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="details.html">About</a>
+        <a href="resume.html">Resume</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Projects grid -->
+    <main>
+      <section aria-labelledby="completed-heading">
+        <h2 id="completed-heading" style="margin:0 0 12px 0">Selected Projects</h2>
+
+        <div class="grid" id="projects-grid">
+
+          <!-- Project card template:
+               - data-github attribute contains the repo URL
+               - whole card clickable via JS
+          -->
+
+          <article class="card" data-github="YOUR_GITHUB_URL_FACE_TRACKING" tabindex="0" role="link" aria-label="Open Face Tracking System on GitHub">
+            <div>
+              <h3>Face Tracking System</h3>
+              <div class="desc">Real-time face tracking using OpenCV &amp; Python for multi-face detection.</div>
+            </div>
+            <div class="row">
+              <div class="tag">OpenCV • Python</div>
+              <a class="btn" href="YOUR_GITHUB_URL_FACE_TRACKING" target="_blank" rel="noopener">View on GitHub</a>
+            </div>
+          </article>
+
+          <article class="card" data-github="YOUR_GITHUB_URL_HAND_GESTURE" tabindex="0" role="link" aria-label="Open Hand Gesture Recognition on GitHub">
+            <div>
+              <h3>Hand Gesture Recognition</h3>
+              <div class="desc">Gesture-controlled interface using Machine Learning and Computer Vision.</div>
+            </div>
+            <div class="row">
+              <div class="tag">ML • Computer Vision</div>
+              <a class="btn" href="YOUR_GITHUB_URL_HAND_GESTURE" target="_blank" rel="noopener">View on GitHub</a>
+            </div>
+          </article>
+
+          <article class="card" data-github="YOUR_GITHUB_URL_SIGN_LANGUAGE" tabindex="0" role="link" aria-label="Open Sign Language Recognition on GitHub">
+            <div>
+              <h3>Sign Language Recognition</h3>
+              <div class="desc">AI model with NumPy &amp; TensorFlow translating signs into text.</div>
+            </div>
+            <div class="row">
+              <div class="tag">TensorFlow • NumPy</div>
+              <a class="btn" href="YOUR_GITHUB_URL_SIGN_LANGUAGE" target="_blank" rel="noopener">View on GitHub</a>
+            </div>
+          </article>
+
+          <article class="card" data-github="YOUR_GITHUB_URL_SUPERMARKET" tabindex="0" role="link" aria-label="Open Supermarket Inventory Management on GitHub">
+            <div>
+              <h3>Supermarket Inventory Management</h3>
+              <div class="desc">Web-based inventory system for tracking stock and automating billing.</div>
+            </div>
+            <div class="row">
+              <div class="tag">Web App • Inventory</div>
+              <a class="btn" href="YOUR_GITHUB_URL_SUPERMARKET" target="_blank" rel="noopener">View on GitHub</a>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- Upcoming projects -->
+      <section aria-labelledby="upcoming-heading" style="margin-top:28px">
+        <h2 id="upcoming-heading" style="margin:0 0 12px 0">🚀 Upcoming Projects</h2>
+
+        <div class="grid" id="upcoming-grid">
+
+          <article class="card" data-github="YOUR_GITHUB_URL_ATTENDANCE" tabindex="0" role="link" aria-label="Open AI-Powered Attendance System on GitHub">
+            <div>
+              <h3>AI-Powered Attendance System (Face Recognition)</h3>
+              <div class="desc">A fully automated attendance system using deep learning &amp; real-time face recognition. Marks attendance and generates analytics reports.</div>
+            </div>
+            <div class="row">
+              <div class="tag">AI • Face Recognition</div>
+              <a class="btn" href="YOUR_GITHUB_URL_ATTENDANCE" target="_blank" rel="noopener">View on GitHub</a>
+            </div>
+          </article>
+
+          <article class="card" data-github="YOUR_GITHUB_URL_CHATBOT" tabindex="0" role="link" aria-label="Open Smart Chatbot on GitHub">
+            <div>
+              <h3>Smart Chatbot Using NLP &amp; LLMs</h3>
+              <div class="desc">Chatbot using transformers &amp; LangChain; integrates speech-to-text and TTS for conversational UX.</div>
+            </div>
+            <div class="row">
+              <div class="tag">NLP • LLM</div>
+              <a class="btn" href="YOUR_GITHUB_URL_CHATBOT" target="_blank" rel="noopener">View on GitHub</a>
+            </div>
+          </article>
+
+          <article class="card" data-github="YOUR_GITHUB_URL_ECOMMERCE_DASH" tabindex="0" role="link" aria-label="Open E-Commerce Analytics Dashboard on GitHub">
+            <div>
+              <h3>E-Commerce Analytics Dashboard</h3>
+              <div class="desc">Sales forecasting, customer segmentation and interactive KPIs using Power BI &amp; ML.</div>
+            </div>
+            <div class="row">
+              <div class="tag">Power BI • ML</div>
+              <a class="btn" href="YOUR_GITHUB_URL_ECOMMERCE_DASH" target="_blank" rel="noopener">View on GitHub</a>
+            </div>
+          </article>
+
+          <article class="card" data-github="YOUR_GITHUB_URL_HEALTH_ASSIST" tabindex="0" role="link" aria-label="Open AI Health Assistant on GitHub">
+            <div>
+              <h3>AI Health Assistant (Symptom Checker)</h3>
+              <div class="desc">ML-based symptom classifier with prevention tips and UI for users to check likely conditions.</div>
+            </div>
+            <div class="row">
+              <div class="tag">ML • Healthcare</div>
+              <a class="btn" href="YOUR_GITHUB_URL_HEALTH_ASSIST" target="_blank" rel="noopener">View on GitHub</a>
+            </div>
+          </article>
+
+          <article class="card" data-github="YOUR_GITHUB_URL_FINANCE" tabindex="0" role="link" aria-label="Open Personal Finance Manager on GitHub">
+            <div>
+              <h3>Personal Finance Manager (Web App)</h3>
+              <div class="desc">Expense tracker with interactive charts, budgets and ML-based savings prediction.</div>
+            </div>
+            <div class="row">
+              <div class="tag">Firebase • Chart.js</div>
+              <a class="btn" href="YOUR_GITHUB_URL_FINANCE" target="_blank" rel="noopener">View on GitHub</a>
+            </div>
+          </article>
+
+          <article class="card" data-github="YOUR_GITHUB_URL_MUSIC_AI" tabindex="0" role="link" aria-label="Open AI Music Generation System on GitHub">
+            <div>
+              <h3>AI Music Generation System</h3>
+              <div class="desc">Deep-learning music generator that crafts melodies, beats and classifies genres using audio processing &amp; neural nets.</div>
+            </div>
+            <div class="row">
+              <div class="tag">Audio AI • Deep Learning</div>
+              <a class="btn" href="YOUR_GITHUB_URL_MUSIC_AI" target="_blank" rel="noopener">View on GitHub</a>
+            </div>
+          </article>
+
+        </div>
+      </section>
+    </main>
+
+    <div style="text-align:center;margin-top:26px;color:var(--muted);font-size:13px">
+      © 2025 Deepkumar B. Patel
+    </div>
+  </div>
+
+<script>
+/* Make whole card clickable + keyboard accessible.
+   If the card's data-github is '#' or empty, nothing will open.
+*/
+document.querySelectorAll('.card').forEach(card=>{
+  const url = card.getAttribute('data-github') || '';
+  // click the card (not when clicking inner links)
+  card.addEventListener('click', (e)=>{
+    // avoid clicks on buttons/links inside the card
+    if(e.target.closest('a')) return;
+    if(url && url !== 'YOUR_GITHUB_URL_FACE_TRACKING' && url !== '#' ){
+      window.open(url, '_blank', 'noopener');
+    } else {
+      // optionally: highlight the GitHub button if link not set
+      const btn = card.querySelector('a.btn');
+      if(btn) { btn.focus(); btn.style.outline='2px solid rgba(6,182,212,0.18)'; setTimeout(()=>btn.style.outline='none',900); }
+    }
+  });
+
+  // keyboard support: Enter opens link
+  card.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      const link = card.querySelector('a.btn');
+      if(link && link.href && !link.href.endsWith('#')) {
+        window.open(link.href, '_blank', 'noopener');
+      }
+    }
+  });
+});
+</script>
+</body>
+</html>
