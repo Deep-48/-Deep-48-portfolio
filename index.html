@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Deep Patel — Portfolio (Scroll Landing)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg1:#0f1724; --bg2:#071033; --accent:#06b6d4; --muted:#9aa8b6;
+    --glass: rgba(255,255,255,0.06);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;color:#e8eef6;background:linear-gradient(135deg,var(--bg1),var(--bg2));-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+  a{color:inherit;text-decoration:none}
+  /* container that enables full-page scroll-snap */
+  .snap-container{
+    height:100vh;
+    overflow-y:auto;
+    scroll-snap-type: y mandatory;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  /* top progress bar */
+  .topbar-progress{position:fixed;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--accent),#3b82f6);transform-origin:left;z-index:60;transform:scaleX(0);pointer-events:none}
+
+  /* Topbar (transparent) */
+  .topbar{position:fixed;left:0;right:0;top:3px;height:64px;display:flex;align-items:center;justify-content:center;z-index:70;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);backdrop-filter: blur(6px);border-bottom:1px solid rgba(255,255,255,0.03)}
+  .nav{max-width:1200px;width:100%;padding:0 20px;display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo{background:linear-gradient(135deg,var(--accent),#3b82f6);width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#04202b}
+  nav a{color:var(--muted);margin-left:16px;font-weight:600;padding:6px 10px;border-radius:8px}
+  nav a.active{color:#fff;background:rgba(255,255,255,0.03)}
+
+  /* decorative background layers (animated) */
+  .bg-animated{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:screen;
+    background: radial-gradient(600px 300px at 10% 20%, rgba(6,182,212,0.08), transparent),
+                radial-gradient(500px 260px at 90% 70%, rgba(59,130,246,0.06), transparent);
+    animation: floatBG 18s linear infinite;
+  }
+  @keyframes floatBG{0%{transform:translateY(0)}50%{transform:translateY(-18px)}100%{transform:translateY(0)}}
+
+  #particle-canvas{position:fixed;inset:0;z-index:0;opacity:0.6;pointer-events:none}
+
+  /* each section full viewport */
+  section{
+    min-height:100vh; /* full screen */
+    scroll-snap-align:center;
+    display:flex;align-items:center;justify-content:center;
+    padding:80px 20px;position:relative;z-index:10;
+  }
+
+  /* hero layout */
+  .hero{display:grid;grid-template-columns:1fr 380px;gap:36px;align-items:center;width:100%;max-width:1200px}
+  .hero-left{padding:28px;border-radius:18px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 18px 60px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03);backdrop-filter: blur(6px)}
+  .hero h1{font-size:40px;margin:0 0 12px}
+  .typed{color:var(--accent);font-weight:800}
+  .lead{color:var(--muted);margin-bottom:18px}
+  .cta-group{display:flex;gap:12px;margin-top:12px}
+  .btn{background:var(--accent);color:#041024;padding:10px 14px;border-radius:10px;font-weight:700;border:none;cursor:pointer}
+
+  .profile-card{position:relative;padding:20px;border-radius:18px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:420px}
+  .profile-oval{width:260px;height:310px;border-radius:50%/42%;overflow:hidden;box-shadow:0 22px 44px rgba(2,6,23,0.6);border:6px solid rgba(255,255,255,0.95);transition:transform .45s}
+  .profile-oval img{width:100%;height:100%;object-fit:cover;display:block}
+
+  /* shared card style */
+  .card{max-width:1000px;margin:0 auto;padding:26px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);box-shadow:0 12px 36px rgba(2,6,23,0.5)}
+  .card h2{margin-top:0}
+  .small{font-size:14px;color:var(--muted)}
+
+  /* reveal animations (initial state) */
+  .reveal{opacity:0;transform:translateY(22px) scale(0.995);transition:opacity .66s cubic-bezier(.2,.9,.2,1), transform .66s cubic-bezier(.2,.9,.2,1)}
+  .reveal.visible{opacity:1;transform:translateY(0) scale(1)}
+
+  /* slide-in left/right helpers */
+  .from-left{transform:translateX(-28px) scale(.996)}
+  .from-right{transform:translateX(28px) scale(.996)}
+  .from-left.visible,.from-right.visible{transform:none;opacity:1}
+
+  /* project grid */
+  .projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
+  .project{padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));border:1px solid rgba(255,255,255,0.02);transition:transform .28s}
+  .project:hover{transform:translateY(-6px)}
+
+  footer{padding:28px 0;text-align:center;color:var(--muted)}
+  .socials{display:flex;gap:18px;justify-content:center;align-items:center}
+  .socials a{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.03);transition:transform .3s}
+  .socials a img{width:22px;height:22px;filter:grayscale(1) contrast(0.9)}
+  .socials a:hover{transform:translateY(-6px);background:linear-gradient(135deg,var(--accent),#3b82f6);box-shadow:0 18px 40px rgba(11,110,140,0.12)}
+  .socials a:hover img{filter:none}
+
+  /* responsive */
+  @media (max-width:980px){
+    .hero{grid-template-columns:1fr;gap:20px}
+    .projects-grid{grid-template-columns:1fr}
+    .profile-card{min-height:260px}
+    nav a{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- animated decorative layers -->
+<div class="bg-animated" aria-hidden="true"></div>
+<canvas id="particle-canvas" aria-hidden="true"></canvas>
+<div class="topbar-progress" id="progress"></div>
+
+<!-- top nav -->
+<header class="topbar" role="banner" aria-hidden="false" style="z-index:70;">
+  <div class="nav" role="navigation" aria-label="Main Navigation">
+    <div class="brand" aria-hidden="false">
+      <div class="logo">DP</div>
+      <div style="line-height:1">
+        <div style="font-weight:700">Deep Patel</div>
+        <div style="font-size:12px;color:var(--muted)">Data Analyst • Web Dev</div>
+      </div>
+    </div>
+    <nav id="main-nav">
+      <a href="#home" data-target="home">Home</a>
+      <a href="#about" data-target="about">About</a>
+      <a href="#projects" data-target="projects">Projects</a>
+      <a href="#resume" data-target="resume">Resume</a>
+      <a href="#contact" data-target="contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- snap container (scrollable) -->
+<div class="snap-container" id="snap">
+
+  <!-- HERO SECTION -->
+  <section id="home" aria-label="Home section">
+    <div class="hero" role="region" aria-labelledby="hero-heading">
+      <div class="hero-left card reveal from-left" id="hero-left">
+        <h1 id="hero-heading">Hello — I'm <span class="typed" id="typed-name">Deep Patel</span></h1>
+        <p class="lead">Detail-oriented Data Analyst with a strong foundation in AI, Machine Learning, and Web Development. I build dashboards, predictive models and responsive web apps.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <div class="small">📍 Vadodara, Gujarat</div>
+          <div class="small">📞 <a href="tel:9925122439" style="color:var(--accent)">9925122439</a></div>
+          <div class="small">✉️ <a href="mailto:pdeep0408@gmail.com" style="color:var(--accent)">pdeep0408@gmail.com</a></div>
+        </div>
+
+        <div class="cta-group" style="margin-top:14px">
+          <a class="btn" href="#projects">View Projects</a>
+          <a class="btn" href="#resume" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:#e8eef6">Download Resume</a>
+        </div>
+      </div>
+
+      <aside class="profile-card reveal from-right" id="profile-card" data-parallax>
+        <div class="profile-oval" id="profile-oval">
+          <img src="photo/d1.jpg" alt="Deep Patel — profile photo">
+        </div>
+        <div class="profile-meta" style="margin-top:14px;text-align:center">
+          <div class="name">Deepkumar B. Patel</div>
+          <div class="role small">B.Tech IT • AI / ML • Web Dev</div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section id="about" aria-label="About section">
+    <div class="card reveal" id="about-card">
+      <h2>About Me</h2>
+      <p class="small">Detail-oriented Data Analyst with a strong foundation in Artificial Intelligence, Machine Learning, and Web Development. Skilled in analyzing complex datasets to generate actionable insights and automate processes. Experienced in building dashboards, predictive models, and responsive web applications using Power BI, Python, SQL, and modern web technologies.</p>
+
+      <div style="display:flex;gap:18px;margin-top:14px;flex-wrap:wrap">
+        <div style="flex:1;min-width:220px">
+          <strong>Education</strong>
+          <div class="small">ITM (SLS) Baroda University — B.Tech in Information Technology (4 years)</div>
+        </div>
+        <div style="flex:1;min-width:220px">
+          <strong>Experience</strong>
+          <div class="small">Code Craft — Web Developer Intern (2 months)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS SECTION -->
+<section id="projects" aria-label="Projects section">
+  <div class="card reveal" id="projects-card">
+
+    <h2>Selected Projects</h2>
+
+    <div class="projects-grid" style="margin-top:12px">
+
+      <div class="project reveal">
+        <strong>Face Tracking System</strong>
+        <div class="small">Real-time face tracking using OpenCV & Python.</div>
+      </div>
+
+      <div class="project reveal">
+        <strong>Hand Gesture Recognition</strong>
+        <div class="small">Gesture-controlled interface using ML & CV.</div>
+      </div>
+
+      <div class="project reveal">
+        <strong>Sign Language Recognition</strong>
+        <div class="small">AI model with NumPy & TensorFlow translating signs to text.</div>
+      </div>
+
+      <div class="project reveal">
+        <strong>Supermarket Inventory Management</strong>
+        <div class="small">Web-based system for tracking stock and automating billing.</div>
+      </div>
+
+    </div>
+
+    <div style="margin-top:12px" class="small">
+      Also: Landing Page Development • Multi-language Communication System
+    </div>
+
+    <!-- Upcoming Projects -->
+    <div style="margin-top:32px">
+      <h3 style="margin-bottom:10px;color:#fff">🚀 Upcoming Projects</h3>
+
+      <div class="project reveal" style="margin-top:12px">
+        <strong>1. AI-Powered Attendance System (Face Recognition)</strong>
+        <div class="small">
+          A fully automated attendance system using deep learning & real-time face recognition. 
+          Automatically marks attendance and generates analytics reports.
+        </div>
+      </div>
+
+      <div class="project reveal" style="margin-top:12px">
+        <strong>2. Smart Chatbot Using NLP & LLMs</strong>
+        <div class="small">
+          AI chatbot using natural language processing and large language models trained on custom data for
+          smart human-like responses.
+        </div>
+      </div>
+        <!-- NEW MUSIC AI PROJECT -->
+  <div class="project reveal" style="margin-top:12px">
+    <strong>3. AI Music Generation System</strong>
+    <div class="small">
+      A deep-learning powered music generator that creates unique melodies, predicts 
+      beats, and identifies genres using neural networks and audio signal processing.
+    </div>
+  </div>
+
+</div>
+
+      
+
+      
+
+     
+
+    </div>
+  </div>
+</section>
+
+
+  
+
+  <!-- RESUME SECTION -->
+  <section id="resume" aria-label="Resume section">
+    <div class="card reveal" id="resume-card">
+      <h2>Resume Summary</h2>
+      <p class="small">
+        <strong>Profile:</strong> Detail-oriented Data Analyst with skills in AI/ML and Web Development. Experienced in building dashboards, predictive models, and responsive web apps.
+      </p>
+      <div style="margin-top:12px;display:flex;gap:18px;flex-wrap:wrap">
+        <div style="min-width:220px">
+          <strong>Skills</strong>
+          <div class="small">Python, JavaScript, HTML, CSS, NumPy, Pandas, OpenCV, TensorFlow, Power BI</div>
+        </div>
+        <div style="min-width:220px">
+          <strong>Tools</strong>
+          <div class="small">Power BI, Excel, Git, VSCode, Netlify</div>
+        </div>
+      </div>
+      <div style="margin-top:16px">
+        <a class="btn" href="Patel_Deepkumar_Bhadreshkumar_Resume.pdf" download>Download Full Resume (PDF)</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section id="contact" aria-label="Contact section">
+    <div class="card reveal" id="contact-card">
+      <h2>Contact Me</h2>
+      <p class="small">Want to work together? Reach me at:</p>
+      <div style="margin-top:8px" class="small">📞 <a href="tel:9925122439" style="color:var(--accent)">9925122439</a></div>
+      <div class="small">✉️ <a href="mailto:your.email@example.com" style="color:var(--accent)">your.email@example.com</a></div>
+      <div style="margin-top:14px" class="socials">
+        <a href="https://www.linkedin.com/in/deep-patel-778601347?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank" aria-label="LinkedIn"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt=""></a>
+        <a href="https://www.instagram.com/_deep48___/" target="_blank" aria-label="Instagram"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" style="border-radius:6px" alt=""></a>
+        <a href="https://github.com/Deep-48" target="_blank" aria-label="GitHub"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt=""></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- small spacer footer -->
+  <section aria-hidden="true" style="min-height:120px;display:flex;align-items:center;justify-content:center">
+    <div style="text-align:center;color:var(--muted)">© 2025 Deep Patel — Built with care</div>
+  </section>
+
+</div><!-- end snap-container -->
+
+<!-- scripts -->
+<script>
+/* Particles (lightweight) */
+(function(){
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext && canvas.getContext('2d');
+  if(!ctx) return;
+  let w=canvas.width=innerWidth, h=canvas.height=innerHeight;
+  window.addEventListener('resize', ()=>{ w=canvas.width=innerWidth; h=canvas.height=innerHeight; });
+  const N = Math.floor((w*h)/90000);
+  const particles = Array.from({length:Math.max(30,N)}, ()=>({
+    x: Math.random()*w, y: Math.random()*h,
+    r: 0.6+Math.random()*1.6,
+    vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3,
+    alpha: 0.06+Math.random()*0.12
+  }));
+  function frame(){
+    ctx.clearRect(0,0,w,h);
+    particles.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0)p.x=w; if(p.x>w)p.x=0; if(p.y<0)p.y=h; if(p.y>h)p.y=0;
+      ctx.beginPath(); ctx.globalAlpha=p.alpha; ctx.fillStyle='white'; ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+    });
+    ctx.globalAlpha=1;
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+/* Typing effect */
+(function(){
+  const el = document.getElementById('typed-name');
+  if(!el) return;
+  const text = 'Deep Patel';
+  let i=0;
+  function type(){
+    el.textContent = text.slice(0,i);
+    i++;
+    if(i<=text.length) setTimeout(type,70);
+  }
+  type();
+})();
+
+/* Parallax profile tilt */
+(function(){
+  const card = document.getElementById('profile-card');
+  const oval = document.getElementById('profile-oval');
+  if(card && oval){
+    card.addEventListener('mousemove', e=>{
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      oval.style.transform = `translate3d(${x*10}px, ${y*10}px, 0) rotate(${x*6}deg)`;
+    });
+    card.addEventListener('mouseleave', ()=>{ oval.style.transform='translate3d(0,0,0) rotate(0)'; });
+  }
+})();
+
+/* Scroll reveal + section active nav + progress bar */
+(function(){
+  const snap = document.getElementById('snap');
+  const sections = Array.from(document.querySelectorAll('section[id]'));
+  const navLinks = Array.from(document.querySelectorAll('#main-nav a'));
+  const progress = document.getElementById('progress');
+
+  // IntersectionObserver for reveals & active nav
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      const el = entry.target;
+      const id = el.id;
+      if(entry.isIntersecting){
+        // reveal elements inside section
+        el.querySelectorAll('.reveal').forEach(n => n.classList.add('visible'));
+        // highlight nav
+        navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('data-target') === id));
+      }
+    });
+  }, {threshold: 0.36});
+
+  sections.forEach(s => obs.observe(s));
+
+  // update top progress based on scroll inside .snap-container
+  function updateProgress(){
+    const scrollTop = snap.scrollTop;
+    const scrollHeight = snap.scrollHeight - snap.clientHeight;
+    const ratio = Math.max(0, Math.min(1, scrollTop / (scrollHeight || 1)));
+    progress.style.transform = `scaleX(${ratio})`;
+  }
+  snap.addEventListener('scroll', updateProgress);
+  // initial call
+  updateProgress();
+
+  // make nav links scroll to section in the snap container (not body)
+  navLinks.forEach(a=>{
+    a.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const id = a.getAttribute('data-target');
+      const target = document.getElementById(id);
+      if(target){
+        // center the section inside the snap container
+        const top = target.offsetTop - (snap.clientHeight - target.clientHeight)/2;
+        snap.scrollTo({top: top, behavior: 'smooth'});
+      }
+    });
+  });
+
+  // keyboard support: page up/down to move between sections
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'PageDown' || (e.key === 'ArrowDown' && (e.metaKey || e.ctrlKey)) ){
+      e.preventDefault();
+      focusNext();
+    } else if(e.key === 'PageUp' || (e.key === 'ArrowUp' && (e.metaKey || e.ctrlKey))){
+      e.preventDefault();
+      focusPrev();
+    }
+  });
+  function focusNext(){
+    const cur = sections.findIndex(s => s.getBoundingClientRect().top >= -10 && s.getBoundingClientRect().top < window.innerHeight/2);
+    const next = Math.min(sections.length-1, cur+1);
+    snap.scrollTo({top: sections[next].offsetTop - (snap.clientHeight - sections[next].clientHeight)/2, behavior:'smooth'});
+  }
+  function focusPrev(){
+    const cur = sections.findIndex(s => s.getBoundingClientRect().top >= -10 && s.getBoundingClientRect().top < window.innerHeight/2);
+    const prev = Math.max(0, cur-1);
+    snap.scrollTo({top: sections[prev].offsetTop - (snap.clientHeight - sections[prev].clientHeight)/2, behavior:'smooth'});
+  }
+})();
+
+/* small focus outlines for accessibility */
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('focus', ()=>el.style.boxShadow='0 0 0 3px rgba(11,184,215,0.12)');
+  el.addEventListener('blur', ()=>el.style.boxShadow='none');
+});
+</script>
+</body>
+</html>

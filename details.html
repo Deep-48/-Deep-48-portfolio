@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>About — Deepkumar B. Patel</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg1:#0f1724; --bg2:#071033; --accent:#06b6d4; --muted:#9aa8b6;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;color:#e8eef6;background:linear-gradient(135deg,var(--bg1),var(--bg2));-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:1100px;margin:60px auto;padding:20px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#3b82f6);display:flex;align-items:center;justify-content:center;font-weight:800;color:#04202b}
+  h1{margin:0;font-size:24px}
+  .sub{color:var(--muted);font-size:14px}
+  nav a{color:var(--muted);margin-left:14px;text-decoration:none;font-weight:600}
+  nav a:hover{color:#fff}
+  .hero{display:flex;gap:20px;align-items:flex-start}
+  .profile{min-width:260px}
+  .profile img{width:260px;height:310px;border-radius:50%/42%;object-fit:cover;display:block;border:6px solid rgba(255,255,255,0.95);box-shadow:0 18px 40px rgba(2,6,23,0.6)}
+  .card{margin-top:14px;padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);box-shadow:0 12px 36px rgba(2,6,23,0.5)}
+  .section-title{font-weight:700;margin-bottom:8px}
+  .muted{color:var(--muted)}
+  .grid{display:grid;grid-template-columns:1fr 320px;gap:18px;align-items:start;margin-top:18px}
+  .skills{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .pill{background:rgba(255,255,255,0.03);padding:8px 12px;border-radius:999px;font-weight:700}
+  ul{margin:8px 0 0 18px;color:#e8eef6}
+  @media (max-width:980px){
+    .grid{grid-template-columns:1fr}
+    .profile{display:none}
+    nav a{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <div class="logo">DP</div>
+      <div>
+        <h1>About — Deepkumar B. Patel</h1>
+        <div class="sub">Detail-oriented Data Analyst • AI/ML • Web Developer</div>
+      </div>
+    </div>
+
+    <nav aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="resume.html">Resume</a>
+      <a href="projects.html">Projects</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="profile">
+      <!-- Replace path with your photo (optional) -->
+      <img src="photo/d1.jpg" alt="Deepkumar B. Patel — photo">
+      <div class="card" style="text-align:center;margin-top:14px">
+        <div style="font-weight:700">Connect</div>
+        <div class="muted" style="margin-top:8px">📞 <a href="tel:9925122439" style="color:var(--accent)">9925122439</a></div>
+        <div class="muted">✉️ <a href="mailto:pdeep0408@gmail.com" style="color:var(--accent)">pdeep0408@gmail.com</a></div>
+        <div style="margin-top:10px"><a href="Patel_Deepkumar_Bhadreshkumar_Resume.pdf" download style="background:var(--accent);color:#041024;padding:8px 12px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block">Download CV</a></div>
+      </div>
+    </div>
+
+    <div style="flex:1">
+      <div class="card">
+        <div class="section-title">Profile Summary</div>
+        <p class="muted">
+          Detail-oriented Data Analyst with a strong foundation in Artificial Intelligence, Machine Learning, and Web Development.
+          Skilled in analyzing complex datasets to generate actionable insights and automate processes. Experienced in building dashboards,
+          predictive models, and responsive web applications using Power BI, Python, SQL, and modern web technologies.
+        </p>
+      </div>
+
+      <div class="grid">
+        <div>
+          <div class="card">
+            <div class="section-title">Experience</div>
+            <strong>Code Craft — Web Developer Intern (2 Months)</strong>
+            <ul class="muted">
+              <li>Developed responsive and user-friendly web pages using HTML, CSS, and JavaScript.</li>
+              <li>Collaborated with the team to enhance website performance and UI/UX.</li>
+              <li>Assisted in debugging and optimizing front-end functionalities for smoother user experience.</li>
+            </ul>
+          </div>
+
+          <div class="card" style="margin-top:14px">
+            <div class="section-title">Selected Projects</div>
+            <ul class="muted">
+              <li><strong>Face Tracking System</strong> — Real-time face tracking using OpenCV &amp; Python.</li>
+              <li><strong>Hand Gesture Recognition</strong> — Gesture-controlled interface using ML &amp; CV.</li>
+              <li><strong>Sign Language Recognition</strong> — AI model with NumPy &amp; TensorFlow translating signs into text.</li>
+              <li><strong>Supermarket Inventory Management</strong> — Web-based inventory system for stock &amp; billing.</li>
+              <li><strong>Landing Page Development</strong> — Responsive landing pages using HTML/CSS/JS.</li>
+              <li><strong>Multi-language Communication System</strong> — Web platform supporting multilingual communication.</li>
+            </ul>
+          </div>
+        </div>
+
+        <aside>
+          <div class="card">
+            <div class="section-title">Education</div>
+            <div class="muted">
+              <strong>ITM (SLS) Baroda University</strong><br>
+              Bachelor of Technology — Information Technology (4 Years)<br>
+              Vadodara, Gujarat
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:14px">
+            <div class="section-title">Technical Skills</div>
+            <div class="skills">
+              <div class="pill">Python</div>
+              <div class="pill">JavaScript</div>
+              <div class="pill">HTML</div>
+              <div class="pill">CSS</div>
+              <div class="pill">Machine Learning</div>
+              <div class="pill">AI</div>
+              <div class="pill">Data Visualization</div>
+              <div class="pill">Data Cleaning</div>
+            </div>
+
+            <div style="margin-top:12px">
+              <div class="section-title">Tools & Libraries</div>
+              <div class="muted">NumPy, Pandas, OpenCV, TensorFlow, Power BI, Excel</div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:14px">
+            <div class="section-title">Other Skills</div>
+            <div class="muted">Problem Solving • Analytical Thinking • Team Collaboration • Front-End Design • API Integration • Hosting & Deployment</div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:22px;color:var(--muted);font-size:13px">
+    © 2025 Deepkumar B. Patel — Details generated from uploaded resume. :contentReference[oaicite:1]{index=1}
+  </div>
+
+</div>
+</body>
+</html>
